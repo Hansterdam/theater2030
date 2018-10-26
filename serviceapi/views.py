@@ -4,11 +4,13 @@ from django.utils import timezone
 from datetime import time, datetime
 
 from . import films
+from . import shows
 
 def index(request):
     welcome = {
         'message': 'Welcome at the service api',
-        'time': datetime.now().time().isoformat(timespec='minutes')
+        'current_shows': shows.get_current(),
+        'next_shows': shows.get_next()
     }
     return JsonResponse(welcome)
 

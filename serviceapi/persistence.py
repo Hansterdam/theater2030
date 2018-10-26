@@ -30,19 +30,12 @@ films = [
 ]
 
 shows = [
-    {'id': 1, 'film_id': 1, 'hall_id': 1, 'time': '14:00'},
-    {'id': 2, 'film_id': 2, 'hall_id': 2, 'time': '14:30'},
-    {'id': 3, 'film_id': 2, 'hall_id': 1, 'time': '16:30'},
-    {'id': 4, 'film_id': 1, 'hall_id': 2, 'time': '16:45'},
-    {'id': 5, 'film_id': 1, 'hall_id': 1, 'time': '18:30'},
-    {'id': 6, 'film_id': 2, 'hall_id': 2, 'time': '19:15'},
-    {'id': 7, 'film_id': 2, 'hall_id': 1, 'time': '21:00'},
-    {'id': 8, 'film_id': 1, 'hall_id': 2, 'time': '21:15'},
+    {'id': 1, 'film_id': 1, 'hall_id': 1, 'hour': 14, 'minute': 0},
+    {'id': 2, 'film_id': 2, 'hall_id': 2, 'hour': 14, 'minute': 30},
+    {'id': 3, 'film_id': 2, 'hall_id': 1, 'hour': 16, 'minute': 30},
+    {'id': 4, 'film_id': 1, 'hall_id': 2, 'hour': 16, 'minute': 45},
+    {'id': 5, 'film_id': 1, 'hall_id': 1, 'hour': 18, 'minute': 30},
+    {'id': 6, 'film_id': 2, 'hall_id': 2, 'hour': 19, 'minute': 15},
+    {'id': 7, 'film_id': 2, 'hall_id': 1, 'hour': 21, 'minute': 0},
+    {'id': 8, 'film_id': 1, 'hall_id': 2, 'hour': 21, 'minute': 15},
 ]
-
-def get_film(film_id):
-    for film in films:
-        if (film['id'] == film_id):
-            return film
-
-    return {'id': 0, 'title': 'No title', 'length': 0}
