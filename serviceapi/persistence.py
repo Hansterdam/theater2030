@@ -40,3 +40,9 @@ shows = [
     {'id': 8, 'film_id': 1, 'hall_id': 2, 'time': '21:15'},
 ]
 
+def get_film(film_id):
+    for film in films:
+        if (film['id'] == film_id):
+            return film
+
+    return {'id': 0, 'title': 'No title', 'length': 0}
