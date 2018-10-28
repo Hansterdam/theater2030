@@ -1,12 +1,30 @@
 from . import persistence
 
-def get_all():
-    return persistence.films
+class Film:
 
-def get(film_id):
+    def __init__(self, values):
+        self.id = values['id']
+        self.title = values['title']
+        self.length = values['length']
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'length': self.length
+        }
+
+
+def get_all(dict=False):
     films = persistence.films
+
+    return list(map(lambda film: Film(film), films))
+
+def get(film_id, dict=False):
+    films = persistence.films
+
     for film in films:
         if (film['id'] == film_id):
-            return film
+            return Film(film)
 
-    return {'id': 0, 'title': 'No title', 'length': 0}
+    return None

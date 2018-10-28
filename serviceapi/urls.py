@@ -1,10 +1,10 @@
 from django.urls import path
 
 from . import views
-from . import films
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('films', views.film_index, name='films'),
-    path('films/<int:film_id>', views.film_detail, name='detail'),
+    path('', views.home, name='home'),
+    path('<str:resource>', views.index, name='films'),
+    path('<str:resource>/<int:film_id>', views.detail, name='detail'),
+    path('films/<int:film_id>/shows', views.film_shows, name='film_shows')
 ]

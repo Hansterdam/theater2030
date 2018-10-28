@@ -1,12 +1,27 @@
 from . import persistence
 
+class Hall:
+
+    def __init__(self, values):
+        self.id = values['id']
+        self.name = values['name']
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
+
 def get_all():
-    return persistence.halls
+    halls = persistence.halls
+
+    return list(map(lambda hall: Hall(hall), halls))
 
 def get(hall_id):
     halls = persistence.halls
+
     for hall in halls:
         if (hall['id'] == hall_id):
-            return hall
+            return Hall(hall)
 
-    return {'id': 0, 'name': 'No name'}
+    return None
