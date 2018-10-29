@@ -1,22 +1,23 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 from django.http import JsonResponse
-from django.utils import timezone
-from django.core.serializers.json import DjangoJSONEncoder
-
-from datetime import time, datetime
-
-import json
 
 from . import films
 from . import shows
+from . import seats
 
-class MyClassEncoder(DjangoJSONEncoder):
+def to_dict(obj):
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            obj[key] = to_dict(value)
 
-    def default(self, obj):
-        if isinstance(obj, films.Film):
-            return json.dumps(obj.to_dict())
-
-        return super().default(obj)
+            return obj
+    elif isinstance(obj, list):
+        return list(map(lambda item: to_dict(item), obj))
+    else:
+        try:
+            return obj.to_dict()
+        except:
+            return obj
 
 def home(request):
     welcome = {
@@ -36,9 +37,11 @@ def index(request, resource):
 
     return JsonResponse(to_dict(all), safe=False)
 
-def detail(request, resource, film_id):
+def detail(request, resource, item_id):
     if resource == 'films':
-        item = films.get(film_id)
+        item = films.get(item_id)
+    elif resource == 'shows':
+        item = shows.get(item_id)
     else:
         item = {}
 
@@ -49,16 +52,6 @@ def film_shows(request, film_id):
 
     return JsonResponse(to_dict(film_upcomming), safe=False)
 
-def to_dict(obj):
-    if isinstance(obj, dict):
-        for key, value in obj.items():
-            obj[key] = to_dict(value)
-
-        return obj
-    elif isinstance(obj, list):
-        return list(map(lambda item: to_dict(item), obj))
-    else:
-        try:
-            return obj.to_dict()
-        except:
-            return obj
+def show_seats(request, show_id):
+    free_seats = seats.get_available_for_show(show_id)
+    return JsonResponse(to_dict(free_seats), safe=False)

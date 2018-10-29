@@ -43,9 +43,6 @@ class Show:
     def get_time(self):
         return time(hour=self.hour, minute=self.minute)
 
-    def get_pretty_time(self):
-        return self.get_time().isoformat(timespec='minutes')
-
     def get_end_time(self):
         film = self.get_film()
         return self.get_datetime() + timedelta(minutes=film.length)
