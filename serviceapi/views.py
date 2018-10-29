@@ -1,9 +1,9 @@
-# from django.shortcuts import render
 from django.http import JsonResponse
 
 from . import films
-from . import shows
 from . import seats
+from . import shows
+from . import tickets
 
 def to_dict(obj):
     if isinstance(obj, dict):
@@ -53,5 +53,28 @@ def film_shows(request, film_id):
     return JsonResponse(to_dict(film_upcomming), safe=False)
 
 def show_seats(request, show_id):
-    free_seats = seats.get_available_for_show(show_id)
-    return JsonResponse(to_dict(free_seats), safe=False)
+    if request.method == 'GET':
+        free_seats = seats.get_available_for_show(show_id)
+
+        return JsonResponse(to_dict(free_seats), safe=False)
+    elif request.method == 'POST':
+        seat_id = int(request.POST['seat_id'])
+        try:
+            ticket = tickets.buy(show_id, seat_id)
+            return JsonResponse(to_dict(ticket), safe=False)
+        except Exception:
+            err = {'status': 'error', 'message': 'seat not found or occupied'}
+            return JsonResponse(err)
+
+def check_in(request, ticket_id):
+    ticket = tickets.get(ticket_id)
+
+    try:
+        ticket.check_in()
+        status = {'status': 'success'}
+    except Exception:
+        status = {'status': 'error', 'message': 'incorrect time to check in'}
+    except ValueError:
+        status = {'status': 'error', 'message': 'ticket already checked in'}
+
+    return JsonResponse(status)
